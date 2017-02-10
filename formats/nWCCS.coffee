@@ -76,10 +76,13 @@ class @nWCCS.RenameProcess extends @nWCCS.Statement
     xml = "<rename>\n"
     xml = xml + "<renames>\n"
     for lab in @labels
-      xml = xml + "<rename from=\"#{lab[0]}\" to=\"#{lab[1]}\"/>\n"
+      xml = xml + "<rename from=\"#{lab.source}\" to=\"#{lab.target}\"/>\n"
     xml = xml + "</renames>\n"
     xml = xml + @post.convert_to_xml()
     xml = xml + "</rename>\n"
+
+class @nWCCS.RenamedLabel
+  constructor: (@source, @target) ->
 
 class @nWCCS.PostProcess extends @nWCCS.Statement
   constructor: (@type, @statement = null) ->

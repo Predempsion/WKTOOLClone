@@ -14,7 +14,7 @@ Start
   / P1:PostProcess _ "+" _  P2:Statement                  { return new nWCCS.ChoiseProcess(P1, P2); }
   / P1:PostProcess _ "|" _ P2:Statement                   { return new nWCCS.ParProcess(P1, P2); }
   / P:PostProcess _ "\\" _ "{" acts:Actions "}"           { return new nWCCS.RestrictProcess(P, acts); }
-  / P:PostProcess _ "[" labs:Renames "]"                  { return new nWCCS.RenameProcess(P, labs); }
+  / P:PostProcess _ "[" labs:Renames "]"                  { return new nWCCS.RenameProcess(P, labs.reverse()); }
   / P:PostProcess                                         { return P; }
 
  PostProcess
@@ -31,10 +31,10 @@ Start
   / act:action  _                                         { var al = [act]; return al; }
   
  Renames
-  = labS:label _ "->" labT:label _ "," _ ll:Renames       { ll.push((labS,LabT)); return ll; }
-  / labS:label _ "=>" labT:label _ "," _ ll:Renames       { ll.push((labS,LabT)); return ll; }
-  / labS:label _ "->" labT:label _                        { var ll = [(labS,LabT)]; return ll; }
-  / labS:label _ "=>" labT:label _                        { var ll = [(labS,LabT)]; return ll; }
+  = labS:label _ "->" _ labT:label _ "," _ ll:Renames       { ll.push(new nWCCS.RenamedLabel(labS,labT)); return ll; }
+  / labS:label _ "=>" _ labT:label _ "," _ ll:Renames       { ll.push(new nWCCS.RenamedLabel(labS,labT)); return ll; }
+  / labS:label _ "->" _ labT:label _                        { var ll = [new nWCCS.RenamedLabel(labS,labT)]; return ll; }
+  / labS:label _ "=>" _ labT:label _                        { var ll = [new nWCCS.RenamedLabel(labS,labT)]; return ll; }
   
   
  Weights

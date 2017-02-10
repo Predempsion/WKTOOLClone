@@ -181,7 +181,7 @@
       _ref = this.labels;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         lab = _ref[_i];
-        xml = xml + ("<rename from=\"" + lab[0] + "\" to=\"" + lab[1] + "\"/>\n");
+        xml = xml + ("<rename from=\"" + lab.source + "\" to=\"" + lab.target + "\"/>\n");
       }
       xml = xml + "</renames>\n";
       xml = xml + this.post.convert_to_xml();
@@ -191,6 +191,16 @@
     return RenameProcess;
 
   })(this.nWCCS.Statement);
+
+  this.nWCCS.RenamedLabel = (function() {
+    function RenamedLabel(source, target) {
+      this.source = source;
+      this.target = target;
+    }
+
+    return RenamedLabel;
+
+  })();
 
   this.nWCCS.PostProcess = (function(_super) {
     __extends(PostProcess, _super);

@@ -568,7 +568,7 @@
                     pos = clone(pos1);
                   }
                   if (result0 !== null) {
-                    result0 = (function(offset, line, column, P, labs) { return new nWCCS.RenameProcess(P, labs); })(pos0.offset, pos0.line, pos0.column, result0[0], result0[3]);
+                    result0 = (function(offset, line, column, P, labs) { return new nWCCS.RenameProcess(P, labs.reverse()); })(pos0.offset, pos0.line, pos0.column, result0[0], result0[3]);
                   }
                   if (result0 === null) {
                     pos = clone(pos0);
@@ -966,7 +966,7 @@
           return cachedResult.result;
         }
         
-        var result0, result1, result2, result3, result4, result5, result6, result7;
+        var result0, result1, result2, result3, result4, result5, result6, result7, result8;
         var pos0, pos1;
         
         pos0 = clone(pos);
@@ -985,25 +985,31 @@
               }
             }
             if (result2 !== null) {
-              result3 = parse_label();
+              result3 = parse__();
               if (result3 !== null) {
-                result4 = parse__();
+                result4 = parse_label();
                 if (result4 !== null) {
-                  if (input.charCodeAt(pos.offset) === 44) {
-                    result5 = ",";
-                    advance(pos, 1);
-                  } else {
-                    result5 = null;
-                    if (reportFailures === 0) {
-                      matchFailed("\",\"");
-                    }
-                  }
+                  result5 = parse__();
                   if (result5 !== null) {
-                    result6 = parse__();
+                    if (input.charCodeAt(pos.offset) === 44) {
+                      result6 = ",";
+                      advance(pos, 1);
+                    } else {
+                      result6 = null;
+                      if (reportFailures === 0) {
+                        matchFailed("\",\"");
+                      }
+                    }
                     if (result6 !== null) {
-                      result7 = parse_Renames();
+                      result7 = parse__();
                       if (result7 !== null) {
-                        result0 = [result0, result1, result2, result3, result4, result5, result6, result7];
+                        result8 = parse_Renames();
+                        if (result8 !== null) {
+                          result0 = [result0, result1, result2, result3, result4, result5, result6, result7, result8];
+                        } else {
+                          result0 = null;
+                          pos = clone(pos1);
+                        }
                       } else {
                         result0 = null;
                         pos = clone(pos1);
@@ -1037,7 +1043,7 @@
           pos = clone(pos1);
         }
         if (result0 !== null) {
-          result0 = (function(offset, line, column, labS, labT, ll) { ll.push((labS,LabT)); return ll; })(pos0.offset, pos0.line, pos0.column, result0[0], result0[3], result0[7]);
+          result0 = (function(offset, line, column, labS, labT, ll) { ll.push(new nWCCS.RenamedLabel(labS,labT)); return ll; })(pos0.offset, pos0.line, pos0.column, result0[0], result0[4], result0[8]);
         }
         if (result0 === null) {
           pos = clone(pos0);
@@ -1059,25 +1065,31 @@
                 }
               }
               if (result2 !== null) {
-                result3 = parse_label();
+                result3 = parse__();
                 if (result3 !== null) {
-                  result4 = parse__();
+                  result4 = parse_label();
                   if (result4 !== null) {
-                    if (input.charCodeAt(pos.offset) === 44) {
-                      result5 = ",";
-                      advance(pos, 1);
-                    } else {
-                      result5 = null;
-                      if (reportFailures === 0) {
-                        matchFailed("\",\"");
-                      }
-                    }
+                    result5 = parse__();
                     if (result5 !== null) {
-                      result6 = parse__();
+                      if (input.charCodeAt(pos.offset) === 44) {
+                        result6 = ",";
+                        advance(pos, 1);
+                      } else {
+                        result6 = null;
+                        if (reportFailures === 0) {
+                          matchFailed("\",\"");
+                        }
+                      }
                       if (result6 !== null) {
-                        result7 = parse_Renames();
+                        result7 = parse__();
                         if (result7 !== null) {
-                          result0 = [result0, result1, result2, result3, result4, result5, result6, result7];
+                          result8 = parse_Renames();
+                          if (result8 !== null) {
+                            result0 = [result0, result1, result2, result3, result4, result5, result6, result7, result8];
+                          } else {
+                            result0 = null;
+                            pos = clone(pos1);
+                          }
                         } else {
                           result0 = null;
                           pos = clone(pos1);
@@ -1111,7 +1123,7 @@
             pos = clone(pos1);
           }
           if (result0 !== null) {
-            result0 = (function(offset, line, column, labS, labT, ll) { ll.push((labS,LabT)); return ll; })(pos0.offset, pos0.line, pos0.column, result0[0], result0[3], result0[7]);
+            result0 = (function(offset, line, column, labS, labT, ll) { ll.push(new nWCCS.RenamedLabel(labS,labT)); return ll; })(pos0.offset, pos0.line, pos0.column, result0[0], result0[4], result0[8]);
           }
           if (result0 === null) {
             pos = clone(pos0);
@@ -1133,11 +1145,17 @@
                   }
                 }
                 if (result2 !== null) {
-                  result3 = parse_label();
+                  result3 = parse__();
                   if (result3 !== null) {
-                    result4 = parse__();
+                    result4 = parse_label();
                     if (result4 !== null) {
-                      result0 = [result0, result1, result2, result3, result4];
+                      result5 = parse__();
+                      if (result5 !== null) {
+                        result0 = [result0, result1, result2, result3, result4, result5];
+                      } else {
+                        result0 = null;
+                        pos = clone(pos1);
+                      }
                     } else {
                       result0 = null;
                       pos = clone(pos1);
@@ -1159,7 +1177,7 @@
               pos = clone(pos1);
             }
             if (result0 !== null) {
-              result0 = (function(offset, line, column, labS, labT) { var ll = [(labS,LabT)]; return ll; })(pos0.offset, pos0.line, pos0.column, result0[0], result0[3]);
+              result0 = (function(offset, line, column, labS, labT) { var ll = [new nWCCS.RenamedLabel(labS,labT)]; return ll; })(pos0.offset, pos0.line, pos0.column, result0[0], result0[4]);
             }
             if (result0 === null) {
               pos = clone(pos0);
@@ -1181,11 +1199,17 @@
                     }
                   }
                   if (result2 !== null) {
-                    result3 = parse_label();
+                    result3 = parse__();
                     if (result3 !== null) {
-                      result4 = parse__();
+                      result4 = parse_label();
                       if (result4 !== null) {
-                        result0 = [result0, result1, result2, result3, result4];
+                        result5 = parse__();
+                        if (result5 !== null) {
+                          result0 = [result0, result1, result2, result3, result4, result5];
+                        } else {
+                          result0 = null;
+                          pos = clone(pos1);
+                        }
                       } else {
                         result0 = null;
                         pos = clone(pos1);
@@ -1207,7 +1231,7 @@
                 pos = clone(pos1);
               }
               if (result0 !== null) {
-                result0 = (function(offset, line, column, labS, labT) { var ll = [(labS,LabT)]; return ll; })(pos0.offset, pos0.line, pos0.column, result0[0], result0[3]);
+                result0 = (function(offset, line, column, labS, labT) { var ll = [new nWCCS.RenamedLabel(labS,labT)]; return ll; })(pos0.offset, pos0.line, pos0.column, result0[0], result0[4]);
               }
               if (result0 === null) {
                 pos = clone(pos0);
