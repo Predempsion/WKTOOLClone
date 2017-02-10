@@ -1,0 +1,238 @@
+doctype html
+html
+  head
+    block head
+      meta(charset='utf-8')
+      title WKTool Help
+      link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Open+Sans')
+      for source in style
+        link(rel='stylesheet', href="#{source}")
+      for source in scripts
+        script(src="#{source}")
+  body
+    div.container-fluid
+      button.close-button.btn.pull-right
+          i.icon-remove
+          |  Close
+      h3 WKTool Help
+      div#help-contents.navbar.navbar-static
+        div.navbar-inner
+          ul.nav
+            li 
+              a(href="#wccs-help") WCCS 
+            li 
+              a(href="#wctl-help") WCTL 
+            li 
+              a(href="#about-help") About 
+      div.row-fluid
+        p.
+          WKTool is a verification tool for weighted Kripke structures.
+        p.
+          Models are defined using WCCS syntax or WKS/DOT syntax in the upper input area. 
+          Properties are entered as WCTL expressions and can be edited and verified in the lower 
+          section of the interface.
+        // WCCS syntax
+        a#wccs-help
+        h4 WCCS Syntax Reference
+        p.
+          The table listed below contains the available WCCS expressions along with their syntax.
+        table.table.table-bordered
+          colgroup
+            col(width='30%')
+            col(width='70%')
+          thead
+            tr
+              th Expression
+              th Syntax
+          tobody
+            tr
+              td Comment
+              td 
+                code(data-highlight='WCTL', data-code='# This is a comment') 
+            tr
+              td Process Definition
+              td 
+                code(data-highlight='WCCS', data-code='M := P;')
+            tr
+              td Channel Prefix
+              td 
+                code(data-highlight='WCCS', data-code='<c,8>.P')
+                |&nbsp; or 
+                code(data-highlight='WCCS', data-code='<c!,8>.P')
+                |&nbsp;or 
+                code(data-highlight='WCCS', data-code='<c>.P')
+            tr
+              td Atomic Label
+              td 
+                code(data-highlight='WCCS', data-code='a:P')
+            tr
+              td Parallel Composition
+              td 
+                code(data-highlight='WCCS', data-code='P | Q')
+            tr
+              td Choice
+              td 
+                code(data-highlight='WCCS', data-code='P + Q')
+            tr
+              td Restriction
+              td 
+                code(data-highlight='WCCS', data-code='P &#92; {c}')
+                |&nbsp;or 
+                code(data-highlight='WCCS', data-code='P &#92; {c1, c2, c3}')
+            tr
+              td Renaming
+              td 
+                code(data-highlight='WCCS', data-code='P [a1 => a2, a3 => a4]')
+                |&nbsp;or 
+                code(data-highlight='WCCS', data-code='P [c1 -> c2, c3 -> c4]')
+            tr
+              td Empty Process
+              td 
+                code(data-highlight='WCCS', data-code='0')
+        // WCTL syntax
+        a#wctl-help
+        h4 WCTL Syntax Reference
+        p.
+          The following table lists the available WCTL expressions and their syntax.
+        p.alert.alert-info
+          | Note for direct and symbolic encodings: 
+          | There is no support for lower-bounds (i.e. >, >=) on temporal formulas
+          | and negation is only permitted for atomic propositions.
+        p
+          | Atoms are denoted by 
+          code(data-highlight='WCTL', data-code='a') 
+          | , boolean expressions by 
+          code(data-highlight='WCTL', data-code='expr') 
+          |, positive integers by 
+          code(data-highlight='WCTL', data-code='k') 
+          |&nbsp;and arithmetic expressions by 
+          code(data-highlight='WCTL', data-code='o') 
+          |.
+        table.table.table-bordered
+          colgroup
+            col(width='30%')
+            col(width='70%')
+          thead
+            tr
+              th Expression
+              th Syntax
+          tobody
+            tr
+              td Comment
+              td 
+                code(data-highlight='WCTL', data-code='# This is a comment') 
+            tr
+              td Boolean
+              td 
+                code(data-highlight='WCTL', data-code='true') 
+                |, 
+                code(data-highlight='WCTL', data-code='false') 
+            tr
+              td Atomic Proposition
+              td 
+                code(data-highlight='WCTL', data-code='a') 
+            tr
+              td Negation
+              td 
+                code(data-highlight='WCTL', data-code='!expr') 
+            tr
+              td Conjunction
+              td 
+                code(data-highlight='WCTL', data-code='expr1 && expr2') 
+            tr
+              td Disjunction
+              td 
+                code(data-highlight='WCTL', data-code='expr1 || expr2') 
+            tr
+              td Universal Until
+              td 
+                code(data-highlight='WCTL', data-code='A expr1 U[<=8] expr2') 
+                |&nbsp;or 
+                code(data-highlight='WCTL', data-code='A expr1 W[>=8] expr2') 
+                |&nbsp;or 
+                code(data-highlight='WCTL', data-code='A expr1 U expr2') 
+            tr
+              td Existential Until
+              td 
+                code(data-highlight='WCTL', data-code=' E expr1 U[<=8] expr2')
+                |&nbsp;or 
+                code(data-highlight='WCTL', data-code=' E expr1 W[>=8] expr2')
+                |&nbsp;or 
+                code(data-highlight='WCTL', data-code='E expr1 U expr2') 
+            tr
+              td Universal Finally
+              td 
+                code(data-highlight='WCTL', data-code='AF[<=8] expr') 
+                |&nbsp;or 
+                code(data-highlight='WCTL', data-code='AF expr') 
+            tr
+              td Existential Finally
+              td 
+                code(data-highlight='WCTL', data-code='EF[<=8] expr') 
+                |&nbsp;or 
+                code(data-highlight='WCTL', data-code='EF expr') 
+            tr
+              td Universal Globally
+              td 
+                code(data-highlight='WCTL', data-code='AG[<=8] expr') 
+                |&nbsp;or 
+                code(data-highlight='WCTL', data-code='AG expr') 
+            tr
+              td Existential Globally
+              td 
+                code(data-highlight='WCTL', data-code='EG[<=8] expr') 
+                |&nbsp;or 
+                code(data-highlight='WCTL', data-code='EG expr') 
+            tr
+              td Universal Next
+              td 
+                code(data-highlight='WCTL', data-code='AX[<=8] expr') 
+                |&nbsp;or 
+                code(data-highlight='WCTL', data-code='AX[>=8] expr') 
+                |&nbsp;or 
+                code(data-highlight='WCTL', data-code='AX expr') 
+            tr
+              td Existential Next
+              td 
+                code(data-highlight='WCTL', data-code='EX[<=8] expr') 
+                |&nbsp;or 
+                code(data-highlight='WCTL', data-code='EX[>=8] expr') 
+                |&nbsp;or 
+                code(data-highlight='WCTL', data-code='EX expr') 
+            tr
+              td Comparison
+              td 
+                code(data-highlight='WCTL', data-code='x < y') 
+                |, 
+                code(data-highlight='WCTL', data-code='x <= y') 
+                |, 
+                code(data-highlight='WCTL', data-code='x == y') 
+                |, 
+                code(data-highlight='WCTL', data-code='x != y') 
+                |, 
+                code(data-highlight='WCTL', data-code='x >= y') 
+                |, 
+                code(data-highlight='WCTL', data-code='x > y') 
+                |, where 'x' and 'y' are arithmetic expressions.
+            tr
+              td Arithmetic expression
+              td 
+                code(data-highlight='WCTL', data-code='o1 * o2')
+                |, 
+                code(data-highlight='WCTL', data-code='o1 + o2')
+                |, 
+                code(data-highlight='WCTL', data-code='o1 - o2')
+                |, 
+                code(data-highlight='WCTL', data-code='o1 / o2')
+                |, 
+                code(data-highlight='WCTL', data-code='o1 ^ o2')
+                |, 
+                code(data-highlight='WCTL', data-code='-o')
+                |, where operands are atomic propositions, integers or arithmetic expressions.
+        a#about-help
+        h4 About
+        p This tool has been developed as part of a project at Aalborg University.
+        h5 Source Code
+        p The source code is hosted on 
+          a(href='https://github.com/jonasfj/WKTool') GitHub
+          | .
