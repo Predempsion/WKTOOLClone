@@ -63,8 +63,10 @@ class @nWCCS.RestrictProcess extends @nWCCS.Statement
   convert_to_xml: ->
     xml = "<restriction>\n"
     xml = xml + "<restricted_actions>\n"
+    i = 0
     for act in @actions
-      xml = xml + "<restricted_action id=\"#{act}\"/>\n"
+      xml = xml + "<restricted_action id=\"#{i}\">#{act}</restricted_action>\n"
+      i++
     xml = xml + "</restricted_actions>\n"
     xml = xml + @post.convert_to_xml()
     xml = xml + "</restriction>\n"
@@ -76,7 +78,7 @@ class @nWCCS.RenameProcess extends @nWCCS.Statement
     xml = "<rename>\n"
     xml = xml + "<renames>\n"
     for lab in @labels
-      xml = xml + "<rename from=\"#{lab.source}\" to=\"#{lab.target}\"/>\n"
+      xml = xml + "<rename><from>#{lab.source}</from><to>#{lab.target}</to></rename>\n"
     xml = xml + "</renames>\n"
     xml = xml + @post.convert_to_xml()
     xml = xml + "</rename>\n"
@@ -89,11 +91,13 @@ class @nWCCS.PostProcess extends @nWCCS.Statement
   convert_to_xml: ->
     xml = ""
     if @statement?
-      xml = xml + "<postprocess type=\"#{@type}\">\n"
+      #xml = xml + "<postprocess type=\"#{@type}\">\n"
       xml = xml + @statement.convert_to_xml()
-      xml = xml + "</postprocess>\n"
+      #xml = xml + "</postprocess>\n"
+    else if @type is "0"
+      xml = xml + "<zeroprocess/>\n"
     else
-      xml = xml + "<postprocess type=\"#{@type}\"/>\n"
+      xml = xml + "<nameprocess>#{@type}</nameprocess>\n"
     
 class @nWCCS.Action
   constructor: (@name, @vector, @isControl) ->
@@ -101,7 +105,7 @@ class @nWCCS.Action
     xml = ""
     i = 1
     for w in @vector
-      xml = xml + "<weight id=\"#{i}\", value=\"#{w}\"/>\n"
+      xml = xml + "<weight id=\"#{i}\" value=\"#{w}\"/>\n"
       i++
     return xml
 

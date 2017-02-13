@@ -99,7 +99,7 @@ Editor.model = (m) ->
   return _editor.getValue()
 
 Editor.nwccsExport = (wks) ->
-  xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<declarations>\n"
+  xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<nwccs_model>\n"
   for decl in wks.declarations
     xml = xml + "<process>\n"
     xml = xml + "<name>\n"
@@ -109,5 +109,5 @@ Editor.nwccsExport = (wks) ->
     xml = xml + "#{decl.statement.convert_to_xml()}"
     xml = xml + "</declaration>\n"
     xml = xml + "</process>\n"
-  xml = xml + "</declarations>"
+  xml = xml + "</nwccs_model>"
   console.log(xml)
