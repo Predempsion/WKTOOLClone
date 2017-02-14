@@ -63,10 +63,8 @@ class @nWCCS.RestrictProcess extends @nWCCS.Statement
   convert_to_xml: ->
     xml = "<restriction>\n"
     xml = xml + "<restricted_actions>\n"
-    i = 0
     for act in @actions
-      xml = xml + "<restricted_action id=\"#{i}\">#{act}</restricted_action>\n"
-      i++
+      xml = xml + "<restricted_action>#{act}</restricted_action>\n"
     xml = xml + "</restricted_actions>\n"
     xml = xml + @post.convert_to_xml()
     xml = xml + "</restriction>\n"
