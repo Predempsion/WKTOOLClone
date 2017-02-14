@@ -23,10 +23,12 @@ class @nWCCS.ActionProcess extends @nWCCS.Statement
   convert_to_xml: -> 
     xml = "<action>\n"
     xml = xml + "<action_id>#{@act.name}</action_id>\n"
+    xml = xml + "<type>"
     if @act.isControl
-      xml = xml + "<type controle_attr=\"c\"/>\n"
+      xml = xml + "c"
     else
-      xml = xml + "<type controle_attr=\"u\"/>\n"
+      xml = xml + "u"
+    xml = xml + "</type>\n"
     weight_str = @act.vector_to_xml()
     xml = xml + "<weights>\n#{weight_str}</weights>\n"
     xml = xml + @statement.convert_to_xml()
@@ -43,11 +45,11 @@ class @nWCCS.LabelProcess extends @nWCCS.Statement
 class @nWCCS.ChoiseProcess extends @nWCCS.Statement
   constructor: (@post, @statement) ->
   convert_to_xml: ->
-    xml = "<choise>\n<first>\n"
+    xml = "<choice>\n<first>\n"
     xml = xml + @post.convert_to_xml()
     xml = xml + "</first>\n<second>\n"
     xml = xml + @statement.convert_to_xml()
-    xml = xml + "</second>\n</choise>\n"
+    xml = xml + "</second>\n</choice>\n"
 
 class @nWCCS.ParProcess extends @nWCCS.Statement
   constructor: (@post, @statement) ->
