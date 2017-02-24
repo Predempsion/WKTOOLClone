@@ -31,7 +31,7 @@ class @nWCCS.ActionProcess extends @nWCCS.Statement
     xml = xml + "</type>\n"
     weight_str = @act.vector_to_xml()
     xml = xml + "<weights>\n#{weight_str}</weights>\n"
-    xml = xml + @statement.convert_to_xml()
+    xml = xml + "<next>\n" + @statement.convert_to_xml() + "</next>\n"
     xml = xml + "</action>\n"
 
 
@@ -39,7 +39,7 @@ class @nWCCS.LabelProcess extends @nWCCS.Statement
   constructor: (@lab, @statement) ->
   convert_to_xml: ->
     xml = "<label id=\"#{@lab}\">\n"
-    xml = xml + @statement.convert_to_xml()
+    xml = xml + "<next>\n" + @statement.convert_to_xml() + "</next>\n"
     xml = xml + "</label>\n"
 
 class @nWCCS.ChoiseProcess extends @nWCCS.Statement
@@ -68,7 +68,7 @@ class @nWCCS.RestrictProcess extends @nWCCS.Statement
     for act in @actions
       xml = xml + "<restricted_action>#{act}</restricted_action>\n"
     xml = xml + "</restricted_actions>\n"
-    xml = xml + @post.convert_to_xml()
+    xml = xml + "<next>\n" + @post.convert_to_xml() + "</next>\n"
     xml = xml + "</restriction>\n"
     
 
@@ -80,7 +80,7 @@ class @nWCCS.RenameProcess extends @nWCCS.Statement
     for lab in @labels
       xml = xml + "<rename><from>#{lab.source}</from><to>#{lab.target}</to></rename>\n"
     xml = xml + "</renames>\n"
-    xml = xml + @post.convert_to_xml()
+    xml = xml + "<next>\n" + @post.convert_to_xml() + "</next>\n"
     xml = xml + "</rename>\n"
 
 class @nWCCS.RenamedLabel
@@ -91,9 +91,7 @@ class @nWCCS.PostProcess extends @nWCCS.Statement
   convert_to_xml: ->
     xml = ""
     if @statement?
-      #xml = xml + "<postprocess type=\"#{@type}\">\n"
       xml = xml + @statement.convert_to_xml()
-      #xml = xml + "</postprocess>\n"
     else if @type is "0"
       xml = xml + "<zeroprocess/>\n"
     else
