@@ -1,0 +1,94 @@
+#verifier {
+  background-color: #fff;
+}
+.form-actions {
+  margin-bottom: 0px;
+}
+#property-list {
+  height: 100%;
+  overflow: auto;
+  width: 50%;
+  float: left;
+}
+#edit-property {
+  height: 100%;
+  overflow: auto;
+  width: 50%;
+}
+#edit-form,
+#stats-view {
+  padding-left: 15px;
+  padding-right: 10px;
+}
+#properties {
+  margin-bottom: 10px;
+}
+#properties tbody tr {
+  cursor: pointer;
+}
+#properties tbody tr:hover {
+  background: #e8e8e8;
+}
+#edit-prop-formula .CodeMirror {
+  height: 50px;
+}
+#stop-process {
+  display: none;
+}
+.formula {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 1px;
+  white-space: pre;
+  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+}
+td.time {
+  text-align: center;
+  white-space: pre;
+}
+#properties tbody tr td .icon-question-sign,
+#properties tbody tr td .icon-ok,
+#properties tbody tr td .icon-remove,
+#properties tbody tr td .icon-refresh {
+  margin-left: 10px;
+}
+#property-error {
+  display: none;
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+#edit-form {
+  padding-top: 10px;
+}
+#add-property {
+  margin-bottom: 10px;
+}
+.hidden {
+  display: none;
+}
+#stats-view {
+  display: none;
+}
+#edit-property h3 {
+  margin-top: 0px;
+}
+.form-horizontal .form-actions {
+  padding-left: 140px;
+}
+.form-horizontal .controls {
+  margin-left: 140px;
+}
+.form-horizontal .control-label {
+  width: 120px;
+}
+#stats-check-label {
+  display: inline-block;
+  margin-left: 20px;
+}
+#stats-check {
+  margin-bottom: 5px;
+}
+.sparkline {
+  display: inline-block;
+  height: 20px;
+}

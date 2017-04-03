@@ -100,7 +100,7 @@ Editor.model = (m) ->
 
 Editor.nwccsExport = (wks) ->
   initialstate = prompt("Please declare the initial proccess", "")
-  xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<nwccs_model>\n<initialprocess>\n#{initialstate}\n</initialprocess>\n"
+  xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<nwccs_model>\n<initialprocess>\n#{initialstate}\n</initialprocess>\n<processes>\n"
   for decl in wks.declarations
     xml = xml + "<process>\n"
     xml = xml + "<name>\n"
@@ -110,6 +110,6 @@ Editor.nwccsExport = (wks) ->
     xml = xml + "#{decl.statement.convert_to_xml()}"
     xml = xml + "</declaration>\n"
     xml = xml + "</process>\n"
-  xml = xml + "#{Verifier.GetnWCTLxml()}"
+  xml = xml + "</processes>\n#{Verifier.GetnWCTLxml()}"
   xml = xml + "</nwccs_model>"
   return xml
