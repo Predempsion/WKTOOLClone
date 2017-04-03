@@ -34,7 +34,7 @@ updateModel = ->
     wks = window["#{Editor.mode()}Parser"].parse Editor.model()
     # Empty strings returns arrays
     if wks.declarations?
-      Editor.nwccsExport(wks)
+      #console.log(Editor.nwccsExport(wks))
     else if not (wks instanceof Array )
       Verifier.populateStates wks.getExplicitStateNames()
       wks.resolve()
@@ -99,7 +99,8 @@ Editor.model = (m) ->
   return _editor.getValue()
 
 Editor.nwccsExport = (wks) ->
-  xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<nwccs_model>\n"
+  initialstate = prompt("Please declare the initial proccess", "")
+  xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<nwccs_model>\n<initialprocess>\n#{initialstate}\n</initialprocess>\n"
   for decl in wks.declarations
     xml = xml + "<process>\n"
     xml = xml + "<name>\n"
@@ -109,5 +110,6 @@ Editor.nwccsExport = (wks) ->
     xml = xml + "#{decl.statement.convert_to_xml()}"
     xml = xml + "</declaration>\n"
     xml = xml + "</process>\n"
+  xml = xml + "#{Verifier.GetnWCTLxml()}"
   xml = xml + "</nwccs_model>"
-  console.log(xml)
+  return xml

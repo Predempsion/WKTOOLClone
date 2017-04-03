@@ -232,12 +232,16 @@ _showMessageTimeout = null
 Init ->
   _lastBlobUrl = null
   $('#download-file').mousedown ->
-    if _lastBlobUrl?
-      URL.revokeObjectURL _lastBlobUrl
-    _lastBlobUrl = URL.createObjectURL new Blob([JSON.stringify save()])
-    $('#download-file')[0].href = _lastBlobUrl
-    $('#download-file')[0].download = $('#project-name').val() + '.wkp'
-    Utils.track 'UI', 'menu-click', 'export-file'
+    if Editor.mode() is 'nWCCS'
+      wks = window["#{Editor.mode()}Parser"].parse Editor.model()
+      alert Editor.nwccsExport(wks)
+    else 
+      if _lastBlobUrl?
+        URL.revokeObjectURL _lastBlobUrl
+      _lastBlobUrl = URL.createObjectURL new Blob([JSON.stringify save()])
+      $('#download-file')[0].href = _lastBlobUrl
+      $('#download-file')[0].download = $('#project-name').val() + '.wkp'
+      Utils.track 'UI', 'menu-click', 'export-file'
 
 
 Init ->

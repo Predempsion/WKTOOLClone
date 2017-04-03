@@ -14,7 +14,7 @@ _editor = null
 _refreshParserTimeout = null
 Init ->
   _editor = CodeMirror document.getElementById("edit-prop-formula"),
-    mode:           "WCTL"
+    mode:           "nWCTL"
     lineNumbers:    false
     tabSize:        2
     lineWrapping:   true
@@ -92,7 +92,10 @@ addProp = (prop = defaultProp()) ->
   row.append $('<td>').append $('<div>').addClass statuses[prop.status]
   row.append $('<td>').html(prop.state)
   p = $('<td>').addClass "formula"
-  CodeMirror.runMode prop.formula, 'WCTL', p[0]
+  if Editor.mode() is 'nWCCS'
+    CodeMirror.runMode prop.formula, 'nWCTL', p[0]
+  else
+    CodeMirror.runMode prop.formula, 'WCTL', p[0]
   row.append p
   row.append $('<td>').addClass("time").html prop.time
   closeBtn = $('<button title="Delete" class="close"> &times;</td>')
@@ -148,7 +151,10 @@ saveCurrentRow = ->
   cells.eq(0).find("div").removeClass().addClass(statuses[prop.status])
   cells.eq(1).html(prop.state)
   cells.eq(2).empty()
-  CodeMirror.runMode prop.formula, 'WCTL', cells.eq(2)[0]
+  if Editor.mode() is 'nWCCS'
+    CodeMirror.runMode prop.formula, 'nWCTL', cells.eq(2)[0]
+  else
+    CodeMirror.runMode prop.formula, 'WCTL', cells.eq(2)[0]
 
 updateEditor = (row) ->
   if _currentRow?
@@ -247,6 +253,19 @@ Verifier.save = ->
       p.status = prop.status
     props.push p
   return props
+
+Verifier.GetnWCTLxml =  ->
+  props = Verifier.save()
+  xml = "<quereis>\n"
+  for prop in props
+    try
+      nwctlprop = nWCTLParser.parse(prop.formula)
+      xml = xml + "<query>\n#{nwctlprop.convert_to_xml()}</query>\n"
+    catch e
+      alert "Failed to parse the query: #{prop.formula}"
+      alert e
+  return xml + "</quereis>\n"
+
 # Encoding
 setEncoding = (encoding) ->
   $('#edit-prop-encoding > .btn').removeClass 'disabled'
