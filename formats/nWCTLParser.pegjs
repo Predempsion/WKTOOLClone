@@ -3,13 +3,15 @@ Phi
   / _ 'AG' _ '('_ psi:Psi _ ')'_                                            { return new nWCTL.Phi('AG', psi); }
   
 Psi
-  = a:prop                                                                  { return new nWCTL.Propersition(a); }
+  = phi:Phi                                                                 { return phi; }
+  / a:prop                                                                  { return new nWCTL.Propersition(a); }
   / '(' _ psi1:PsiH _ '||' _ psi2:Psi _ ')'                              { return new nWCTL.Psi(new nWCTL.Compare('disjunction'), psi1, psi2); }
   / '(' _ psi1:PsiH _ '&&' _ psi2:Psi _')'                               { return new nWCTL.Psi(new nWCTL.Compare('conjunction'), psi1, psi2); }
   / chi:Chi _ s:compare _ c:const                                           { return new nWCTL.Psi(s, chi, new nWCTL.Constant(c)); }
 
 PsiH
-  = a:prop                                                                  { return new nWCTL.Propersition(a); }
+  = phi:Phi                                                                 { return phi; }
+  / a:prop                                                                  { return new nWCTL.Propersition(a); }
   / '(' _ psi1:PsiH _ '||' _ psi2:Psi _ ')'                              { return new nWCTL.Psi(new nWCTL.Compare('disjunction'), psi1, psi2); }
   / '(' _ psi1:PsiH _ '&&' _ psi2:Psi _')'                               { return new nWCTL.Psi(new nWCTL.Compare('conjunction'), psi1, psi2); }
   / chi:Chi _ s:compare _ c:const                                           { return new nWCTL.Psi(s, chi, new nWCTL.Constant(c)); }

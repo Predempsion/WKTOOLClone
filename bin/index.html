@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>WKTool - WCCS Model Checker</title>
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" href="lib/bootstrap.min.css">
+    <link rel="stylesheet" href="lib/layout-default.css">
+    <link rel="stylesheet" href="editor/CodeMirror.css">
+    <link rel="stylesheet" href="style/Panel.css">
+    <link rel="stylesheet" href="style/Editor.css">
+    <link rel="stylesheet" href="style/Verifier.css">
+    <script src="scripts/utils.js"></script>
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/jquery.ui.min.js"></script>
+    <script src="lib/jquery.layout.min.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
+    <script src="lib/jquery.sparkline.min.js"></script>
+    <script src="lib/codemirror.min.js"></script>
+    <script src="lib/runmode.js"></script>
+    <script src="lib/matchbrackets.js"></script>
+    <script src="editor/WKS-mode.js"></script>
+    <script src="editor/WCTL-mode.js"></script>
+    <script src="editor/nWCTL-mode.js"></script>
+    <script src="editor/WCCS-mode.js"></script>
+    <script src="editor/nWCCS-mode.js"></script>
+    <script src="lib/buckets.min.js"></script>
+    <script src="engines/Strategies.js"></script>
+    <script src="formats/WKS.js"></script>
+    <script src="formats/WCTL.js"></script>
+    <script src="formats/WCCS.js"></script>
+    <script src="formats/nWCCS.js"></script>
+    <script src="formats/nWCTL.js"></script>
+    <script src="formats/WKSParser.js"></script>
+    <script src="formats/WCTLParser.js"></script>
+    <script src="formats/WCCSParser.js"></script>
+    <script src="formats/nWCCSParser.js"></script>
+    <script src="formats/nWCTLParser.js"></script>
+    <script src="scripts/Panel.js"></script>
+    <script src="scripts/Editor.js"></script>
+    <script src="scripts/Verifier.js"></script>
+    <script src="scripts/ScalableModels.js"></script>
+  </head>
+  <body>
+    <div id="main" class="container-fluid">
+      <div class="navbar">
+        <div class="navbar-inner"><a class="brand">WKTool</a>
+          <ul class="nav">
+            <li class="divider-vertical"></li>
+            <li>
+              <input id="project-name" type="text" placeholder="Project name..." class="input-xlarge">
+            </li>
+          </ul>
+          <ul class="nav pull-right">
+            <li class="divider-vertical"></li>
+            <li><a id="save-menu">Save</a></li>
+            <li class="dropdown"><a data-toggle="dropdown" data-target="#" class="dropdown-toggle">Load <b class="caret"></b></a>
+              <ul id="load-menu" class="dropdown-menu">
+                <li id="examples-menu" class="dropdown-submenu"><a>Load example</a>
+                  <ul id="examples" class="dropdown-menu">
+                    <li><a>CSMA-CD</a></li>
+                    <li><a>Client Server</a></li>
+                    <li><a>Factory Example</a></li>
+                    <li><a>Lawn Mower as WCCS</a></li>
+                    <li><a>Lawn Mower as WKS</a></li>
+                    <li><a>Unit Test</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li class="dropdown"><a id="delete-menu" data-toggle="dropdown" data-target="#" class="disabled dropdown-toggle">Delete <b class="caret"></b></a>
+              <ul id="delete-menu-items" class="dropdown-menu"></ul>
+            </li>
+            <li><a id="download-file" target="_blank">Export</a></li>
+            <li><a id="visualize">Visualize</a></li>
+            <li><a id="show-help">Help</a></li>
+          </ul>
+        </div>
+      </div>
+      <div id="splitter">
+        <div id="editor" class="ui-layout-center">
+          <div id="editor-options">
+            <div class="btn-group">
+              <div id="editor-message" class="btn btn-mini btn-warning disabled"><span class="label label-warning">Error:</span><span style="padding-left:10px" class="message"></span></div>
+            </div>
+            <div id="model-lang" class="btn-group">
+              <div class="btn btn-mini disabled">WCCS</div>
+              <div class="btn btn-mini disabled">nWCCS</div>
+              <div class="btn btn-mini">WKS</div>
+            </div>
+          </div>
+        </div>
+        <div id="verifier" class="ui-layout-south">
+          <!-- Property List-->
+          <div id="property-list">
+            <div style="margin-right: 10px;">
+              <table id="properties" class="table">
+                <colgroup>
+                  <col width="10%">
+                  <col width="10%">
+                  <col width="70%">
+                  <col width="15%">
+                  <col width="2%">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>State</th>
+                    <th>Formula</th>
+                    <th>Time</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <button id="add-property" class="btn"><i class="icon-plus"></i>  Add Property</button>
+            </div>
+          </div>
+          <div id="edit-property">
+            <div id="edit-form" class="form-horizontal">
+              <div class="control-group">
+                <label class="control-label">Initial state</label>
+                <div class="controls">
+                  <select id="edit-prop-init-state" class="input-block-level"></select>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Formula</label>
+                <div class="controls">
+                  <div id="edit-prop-formula" class="input-block-level"></div>
+                  <div id="property-error" class="alert alert-error">
+                    <button id="property-error-close" class="close">&times;</button><strong id="property-error-name"></strong><span id="property-error-message"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Encoding</label>
+                <div class="controls">
+                  <div id="edit-prop-encoding" class="btn-group">
+                    <div style="width: 8ex" data-encoding="MinMax" class="btn">Min-Max</div>
+                    <div style="width: 7ex" data-encoding="Symbolic" class="btn disabled">Symbolic</div>
+                    <div style="width: 6ex" data-encoding="Naive" class="btn">Direct</div>
+                  </div>
+                  <label id="stats-check-label">
+                    <input type="checkbox" id="stats-check"> Enable runtime statistics
+                  </label>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Engine</label>
+                <div class="controls">
+                  <div id="edit-prop-engine" class="btn-group">
+                    <div style="width: 7ex" data-engine="Local" class="btn disabled">Local</div>
+                    <div style="width: 6ex" data-engine="Global" class="btn">Global</div>
+                  </div>
+                  <select id="search-strategy" style="margin-left:20px"></select>
+                </div>
+              </div>
+              <div class="form-actions">
+                <div id="edit-prop-run" class="btn btn-success"><i class="icon-flag icon-white"></i> Verify</div>
+              </div>
+            </div>
+            <div id="stats-view" class="form-horizontal">
+              <div style="margin-left: 30px; margin-right: 20px;">
+                <h3>Verification in progress...</h3>
+                <table class="table table-condensed">
+                  <colgroup>
+                    <col width="30%">
+                    <col width="70%">
+                  </colgroup>
+                  <tbody></tbody>
+                </table>
+              </div>
+              <div class="form-actions">
+                <div id="kill-process" class="btn btn-danger"><i class="icon-stop icon-white"></i> Kill verification process</div>
+                <div id="edit-prop" class="hidden btn btn-primary"><i class="icon-pencil icon-white"></i> Edit Property</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="message-box"></div>
+    <div id="overwrite-warning" class="modal hide fade">
+      <div class="modal-header">
+        <button data-dismiss="modal" class="close">&times;</button>
+        <h3>Project "<span class="overwrite-name"></span>" Already Exists!</h3>
+      </div>
+      <div class="modal-body">
+        <p>A project with the name "<span class="overwrite-name"></span>" is already stored in localStorage of your browser.<br><b>Do you wish to overwrite it?</b></p>
+      </div>
+      <div class="modal-footer">
+        <button id="overwrite-button" data-dismiss="modal" class="btn btn-primary">Overwrite</button>
+        <button data-dismiss="modal" class="btn">Cancel</button>
+      </div>
+    </div>
+    <div id="delete-warning" class="modal hide fade">
+      <div class="modal-header">
+        <button data-dismiss="modal" class="close">&times;</button>
+        <h3>Delete "<span class="delete-name"></span>" from LocalStorage?</h3>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure yo want to delete "<span class="delete-name"></span>" from LocalStorage in your browser?</p>
+      </div>
+      <div class="modal-footer">
+        <button id="delete-button" data-dismiss="modal" class="btn btn-primary">Delete</button>
+        <button data-dismiss="modal" class="btn">Cancel</button>
+      </div>
+    </div>
+    <div id="scalable-model-dialog" class="modal hide fade">
+      <div class="modal-header">
+        <button data-dismiss="modal" class="close">&times;</button>
+        <h3>Load "<span class="scalable-model-name"></span>"</h3>
+      </div>
+      <div class="modal-body">
+        <p class="scalable-model-parameter"></p>
+        <div class="input-prepend"><span class="add-on">Enter number:</span>
+          <input id="model-scale" type="text">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="load-scalable-model-button" data-dismiss="modal" class="btn btn-primary">Load</button>
+        <button data-dismiss="modal" class="btn">Cancel</button>
+      </div>
+    </div>
+    <div id="visualization-layer">
+      <div id="frame-wrapper">
+        <iframe></iframe>
+      </div>
+    </div>
+    <div id="help-layer">
+      <div id="help-frame-wrapper">
+        <iframe></iframe>
+      </div>
+    </div>
+    <input id="file-browser" type="file" style="display: none;">
+  </body>
+</html>
